@@ -53,7 +53,7 @@ class Display extends Component {
             this.state.locationId = this.props.query.locationId;
         } else if(this.state.path == '/latest') {
             this.state.apiUrl = this.state.apiUrl + "/" + this.props.query.companyId + "/locations/"
-            + this.props.query.locationId + "/things/" + "latest";//this.props.query.deviceId + "/latest";
+            + this.props.query.locationId + "/things/" + this.props.query.deviceId + "/latest";
             this.state.companyId = this.props.query.companyId;
             this.state.locationId = this.props.query.locationId;
         }
@@ -88,7 +88,11 @@ class Display extends Component {
         )
         .then((res) => res.json())
         .then((listData) => {
-            this.setState({rows: listData});
+            if(this.state.path == '/latest') {
+                this.setState({rows: listData.summary});
+            } else {
+                this.setState({rows: listData});
+            }
             this.setState({dataObtained: true});
         });
      }

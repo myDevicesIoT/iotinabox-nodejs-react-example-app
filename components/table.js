@@ -57,36 +57,19 @@ class MyTable extends Component {
         );
     }
 
-    displayData(row) {
-        /*
+    displayData(row, index) {
         return (
-            <StyledTableRow onClick={() => {this.handleCellClick(data.id)}} key={row.thing_name}>
+            <StyledTableRow key={index}>
                 <StyledTableCell className="tablecell" scope='row'>
-                    {data.v}
+                    {row.v}
                 </StyledTableCell>
                 <StyledTableCell className="tablecell" scope='row'>
-                    {data.unit}
+                    {row.unit}
                 </StyledTableCell>
                 <StyledTableCell className="tablecell" scope='row'>
-                    {data.ts}
+                    {row.ts}
                 </StyledTableCell>
             </StyledTableRow>
-        );
-        */
-        return (
-            row.thing_data.map((data, index) => (
-                <StyledTableRow onClick={() => {this.handleCellClick(row.id)}} key={row.thing_name}>
-                    <StyledTableCell className="tablecell" scope='row'>
-                        {data.v}
-                    </StyledTableCell>
-                    <StyledTableCell className="tablecell" scope='row'>
-                        {data.unit}
-                    </StyledTableCell>
-                    <StyledTableCell className="tablecell" scope='row'>
-                        {data.ts}
-                    </StyledTableCell>
-                </StyledTableRow>
-            ))
         );
     }
 
@@ -128,13 +111,15 @@ class MyTable extends Component {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {this.state.rows.map((row, index) => {
-                            if(this.props.path == '/latest') {
-                                return this.displayData(row);
-                            } else {
+                        {
+                            this.props.path == '/latest' ? 
+                            this.state.rows.map((row, index) => {
+                                return this.displayData(row, index);
+                            })
+                            :this.state.rows.map((row, index) => {
                                 return this.displayList(row, index);
-                            }
-                        })}
+                            })
+                        }
                     </TableBody>
                 </Table>
             </Paper>

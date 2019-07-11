@@ -22,6 +22,7 @@ const tokenUrl = "https://auth.mydevices.com/auth/realms/iotinabox/protocol/open
 app.prepare()
 .then(() => {
   const server = express();
+
   server.get('/auth/cb/', (req, res) => {
     postData['code'] = req.query.code;
     tokenRequest = request({
@@ -33,13 +34,19 @@ app.prepare()
       tokenData["access_token"] = data.access_token;
       tokenData["refresh_token"] = data.refresh_token;
     });
-    const actualPage = '/companies';
+    const actualPage = '/content';
+    const queryParams = {};
+    app.render(req, res, actualPage, queryParams);
+  });
+
+  server.get('/companies', (req, res) => {
+    const actualPage = '/content';
     const queryParams = {};
     app.render(req, res, actualPage, queryParams);
   });
 
   server.get('/locations', (req, res) => {
-    const actualPage = '/companies';
+    const actualPage = '/content';
     const queryParams = {
       companyId: req.query.companyId
     };
@@ -47,7 +54,7 @@ app.prepare()
   });
 
   server.get('/sensors', (req, res) => {
-    const actualPage = '/companies';
+    const actualPage = '/content';
     const queryParams = { 
       companyId: req.query.companyId,
       locationId: req.query.locationId
@@ -56,7 +63,7 @@ app.prepare()
   });
 
   server.get('/latest', (req, res) => {
-    const actualPage = '/companies';
+    const actualPage = '/content';
     const queryParams = {
       companyId: req.query.companyId,
       locationId: req.query.locationId,
